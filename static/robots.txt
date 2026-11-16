@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://dental-clinic.pages.dev/sitemap.xml
+Sitemap: https://navix-dental.pages.dev/sitemap.xml

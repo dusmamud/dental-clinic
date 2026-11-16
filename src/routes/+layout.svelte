@@ -7,7 +7,7 @@
 
 	let { children }: LayoutProps = $props();
 
-	const siteUrl = 'https://dental-clinic.pages.dev';
+	const siteUrl = 'https://navix-dental.pages.dev';
 	const canonical = $derived(`${siteUrl}${page.url.pathname}`);
 
 	const dentistJsonLd = {
