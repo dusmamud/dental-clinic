@@ -16,6 +16,15 @@
 		done = true;
 	}
 
+	const patientLinks = [
+		{ href: '/new-patients', label: 'New Patients' },
+		{ href: '/insurance', label: 'Insurance' },
+		{ href: '/pricing', label: 'Pricing' },
+		{ href: '/emergency', label: 'Emergency Care' },
+		{ href: '/reviews', label: 'Reviews' },
+		{ href: '/smile-gallery', label: 'Smile Gallery' }
+	];
+
 	const companyLinks = [
 		{ href: '/about', label: 'About Us' },
 		{ href: '/team', label: 'Our Team' },
@@ -30,7 +39,7 @@
 
 <footer class="bg-navy text-white">
 	<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-		<div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
+		<div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1.3fr]">
 			<div class="min-w-0">
 				<a href="/" class="flex items-center gap-2.5">
 					<span class="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
@@ -66,6 +75,15 @@
 				<ul class="mt-4 space-y-2.5 text-sm text-slate-300">
 					{#each services as s}
 						<li><a class="hover:text-white" href="/services/{s.slug}">{s.name}</a></li>
+					{/each}
+				</ul>
+			</nav>
+
+			<nav aria-label="Patients" class="min-w-0">
+				<h3 class="text-sm font-bold tracking-wide text-white uppercase">Patients</h3>
+				<ul class="mt-4 space-y-2.5 text-sm text-slate-300">
+					{#each patientLinks as l}
+						<li><a class="hover:text-white" href={l.href}>{l.label}</a></li>
 					{/each}
 				</ul>
 			</nav>

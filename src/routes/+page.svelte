@@ -1,6 +1,9 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import Icon from '#lib/components/Icon.svelte';
+	import { ChevronLeft, ChevronRight, ShieldCheck } from 'lucide-svelte';
 	import { reveal } from '#lib/actions/reveal';
+	import CountUp from '#lib/components/CountUp.svelte';
 	import { services } from '#lib/data/services';
 	import { team } from '#lib/data/team';
 	import { testimonials } from '#lib/data/testimonials';
@@ -10,6 +13,18 @@
 	const tabServices = services.slice(0, 5);
 	let activeTab = $state('smile-assessment');
 	const activeService = $derived(services.find((s) => s.slug === activeTab) ?? services[0]);
+
+	// Sliding tab underline: measure the active button's position.
+	let tablistEl: HTMLDivElement | undefined = $state();
+	let indicator = $state({ left: 0, width: 0 });
+	function updateIndicator() {
+		const btn = tablistEl?.querySelector<HTMLButtonElement>(`[data-tab="${activeTab}"]`);
+		if (btn) indicator = { left: btn.offsetLeft, width: btn.offsetWidth };
+	}
+	$effect(() => {
+		activeTab;
+		void tick().then(updateIndicator);
+	});
 
 	const lead = team[0];
 	const previewFaqs = faqs.slice(0, 4);
@@ -60,7 +75,24 @@
 		{ n: '2', title: 'Visit & smile assessment', text: 'A relaxed first visit: we examine your teeth and gums, take X-rays only if needed, and listen.' },
 		{ n: '3', title: 'Personalized treatment plan', text: 'A clear plan with options and honest pricing, tailored to your smile, health and budget.' }
 	];
+
+	const insurers = ['Delta Dental', 'Cigna', 'MetLife', 'Aetna', 'UnitedHealthcare', 'Humana', 'CareCredit'];
+
+	// Testimonial slider: auto-advances ~5s, pauses on hover, never
+	// auto-advances under reduced motion.
+	let tIndex = $state(0);
+	let tPaused = $state(false);
+	const featured = $derived(testimonials[tIndex]);
+	$effect(() => {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		const id = setInterval(() => {
+			if (!tPaused) tIndex = (tIndex + 1) % testimonials.length;
+		}, 5000);
+		return () => clearInterval(id);
+	});
 </script>
+
+<svelte:window onresize={updateIndicator} />
 
 <svelte:head>
 	{@html `<script type="application/ld+json">${JSON.stringify(faqJsonLd)}</script>`}
@@ -68,21 +100,31 @@
 
 <!-- ============ HERO ============ -->
 <section class="relative overflow-hidden bg-mist">
-	<div class="mx-auto max-w-7xl px-4 pt-10 pb-16 sm:px-6 lg:px-8 lg:pt-16 lg:pb-24">
+	<div class="mx-auto max-w-7xl px-4 pt-10 pb-20 sm:px-6 lg:px-8 lg:pt-16 lg:pb-32">
 		<div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-			<div class="min-w-0" use:reveal>
-				<p class="text-xs font-bold tracking-[0.24em] text-brand uppercase">NaviX Technologies · Austin, TX</p>
+			<div class="min-w-0">
+				<p
+					class="hero-anim inline-flex items-center gap-2 rounded-full border border-teal-700/20 bg-white px-3.5 py-1.5 text-xs font-bold text-brand shadow-sm"
+					style="--delay: 0ms"
+				>
+					<span class="relative flex size-2">
+						<span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-60"></span>
+						<span class="relative inline-flex size-2 rounded-full bg-brand"></span>
+					</span>
+					Accepting new patients · Austin, TX
+				</p>
+				<!-- H1 is STATIC for LCP — never hidden by reveal/entrance -->
 				<h1 class="mt-4 text-[42px] leading-[1.05] font-bold sm:text-6xl lg:text-[64px]">
 					<span class="text-navy">Family-Friendly</span><br />
 					<span class="text-brand">Dental Care</span>
 				</h1>
-				<p class="mt-5 max-w-md text-base leading-relaxed text-muted sm:text-lg">
+				<p class="hero-anim mt-5 max-w-md text-base leading-relaxed text-muted sm:text-lg" style="--delay: 100ms">
 					Gentle care for every smile. Advanced technology for a healthier tomorrow.
 				</p>
-				<div class="mt-7 flex flex-wrap items-center gap-3">
+				<div class="hero-anim mt-7 flex flex-wrap items-center gap-3" style="--delay: 200ms">
 					<a
 						href="/book-appointment"
-						class="inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white shadow-lg shadow-teal-700/25 transition hover:bg-brand-dark"
+						class="btn-arrow inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white shadow-lg shadow-teal-700/25 transition hover:bg-brand-dark"
 					>
 						Book an Appointment <Icon name="arrow-right" class="size-4" />
 					</a>
@@ -93,15 +135,31 @@
 						Explore services
 					</a>
 				</div>
-				<p class="mt-5 flex items-center gap-2 text-sm font-semibold text-navy">
+				<p class="hero-anim mt-5 flex items-center gap-2 text-sm font-semibold text-navy" style="--delay: 300ms">
 					<span class="flex text-gold" aria-label="Rated 4.9 out of 5">
 						{#each Array(5) as _}<Icon name="star" class="size-4" />{/each}
 					</span>
 					4.9/5 · 280+ reviews · New patients welcome
 				</p>
+				<div class="hero-anim mt-6 border-t border-teal-900/10 pt-5" style="--delay: 400ms">
+					<p class="flex flex-wrap items-center gap-2 text-xs font-semibold text-muted">
+						<span class="text-navy">Insurance accepted:</span>
+						{#each ['Delta Dental', 'Cigna', 'MetLife', 'Aetna'] as ins}
+							<a
+								href="/insurance"
+								class="rounded-full border border-teal-700/20 bg-white px-2.5 py-1 text-xs font-bold text-brand transition hover:bg-brand hover:text-white"
+								>{ins}</a
+							>
+						{/each}
+					</p>
+					<p class="mt-3 flex items-center gap-2 text-xs font-semibold text-muted">
+						<Icon name="clock" class="size-4 text-brand" /> Mon–Fri 8am–6pm · Sat 9am–2pm
+					</p>
+				</div>
 			</div>
 
-			<div class="min-w-0" use:reveal>
+			<!-- Mobile / tablet hero image: rounded card -->
+			<div class="min-w-0 lg:hidden">
 				<div class="overflow-hidden rounded-3xl shadow-2xl shadow-teal-900/20">
 					<img
 						src="/images/hero.webp"
@@ -112,26 +170,43 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- Trust pill bar overlapping hero bottom -->
-		<div
-			class="relative z-10 mt-10 grid grid-cols-2 gap-4 rounded-3xl bg-white p-5 shadow-xl shadow-teal-900/10 lg:-mt-2 lg:grid-cols-4 lg:p-6"
-			use:reveal
-		>
-			{#each trustItems as t}
-				<div class="flex min-w-0 items-center gap-3">
-					<span class="grid size-11 shrink-0 place-items-center rounded-full bg-mist text-brand">
-						<Icon name={t.icon} class="size-5" />
-					</span>
-					<span class="min-w-0">
-						<span class="block text-sm font-bold text-navy">{t.title}</span>
-						<span class="block text-xs text-muted">{t.text}</span>
-					</span>
-				</div>
-			{/each}
-		</div>
+	<!-- Desktop hero image: bleeds to the viewport right edge -->
+	<div
+		class="hero-anim-img absolute inset-y-0 right-0 hidden w-[46%] lg:block"
+		style="--delay: 150ms"
+		aria-hidden="false"
+	>
+		<img
+			src="/images/hero.webp"
+			alt="Bright, modern NaviX dental clinic treatment room"
+			class="h-full w-full object-cover"
+			fetchpriority="high"
+		/>
+		<div class="absolute inset-0 bg-gradient-to-r from-mist via-mist/10 to-transparent" aria-hidden="true"></div>
 	</div>
 </section>
+
+<!-- Trust pill bar OVERLAPPING the hero bottom edge -->
+<div class="relative z-10 mx-auto -mt-10 max-w-7xl px-4 sm:px-6 lg:-mt-14 lg:px-8">
+	<div
+		class="hero-anim grid grid-cols-2 gap-4 rounded-3xl bg-white p-5 shadow-xl shadow-teal-900/10 lg:grid-cols-4 lg:p-6"
+		style="--delay: 450ms"
+	>
+		{#each trustItems as t}
+			<div class="flex min-w-0 items-center gap-3">
+				<span class="grid size-11 shrink-0 place-items-center rounded-full bg-mist text-brand">
+					<Icon name={t.icon} class="size-5" />
+				</span>
+				<span class="min-w-0">
+					<span class="block text-sm font-bold text-navy">{t.title}</span>
+					<span class="block text-xs text-muted">{t.text}</span>
+				</span>
+			</div>
+		{/each}
+	</div>
+</div>
 
 <!-- ============ SERVICE TABS ============ -->
 <section class="bg-white">
@@ -144,55 +219,60 @@
 			</p>
 		</div>
 
-		<div
-			class="mt-8 flex gap-1 overflow-x-auto border-b border-slate-200 pb-px"
-			role="tablist"
-			aria-label="Services"
-			use:reveal
-		>
-			{#each tabServices as s}
-				<button
-					type="button"
-					role="tab"
-					aria-selected={activeTab === s.slug}
-					class="flex min-h-11 shrink-0 items-center gap-2 border-b-2 px-4 py-3 text-sm font-bold whitespace-nowrap transition {activeTab ===
-					s.slug
-						? 'border-brand text-brand'
-						: 'border-transparent text-muted hover:text-navy'}"
-					onclick={() => (activeTab = s.slug)}
-				>
-					<Icon name={s.icon} class="size-5" /> {s.name}
-				</button>
-			{/each}
+		<div class="mt-8 overflow-x-auto border-b border-slate-200" role="tablist" aria-label="Services" use:reveal>
+			<div class="relative flex w-max min-w-full gap-1" bind:this={tablistEl}>
+				{#each tabServices as s}
+					<button
+						type="button"
+						role="tab"
+						data-tab={s.slug}
+						aria-selected={activeTab === s.slug}
+						class="flex min-h-11 shrink-0 items-center gap-2 px-4 py-3 text-sm font-bold whitespace-nowrap transition {activeTab ===
+						s.slug
+							? 'text-brand'
+							: 'text-muted hover:text-navy'}"
+						onclick={() => (activeTab = s.slug)}
+					>
+						<Icon name={s.icon} class="size-5" /> {s.name}
+					</button>
+				{/each}
+				<span
+					class="absolute bottom-0 h-[3px] rounded-full bg-brand transition-all duration-300 ease-out"
+					style="left: {indicator.left}px; width: {indicator.width}px"
+					aria-hidden="true"
+				></span>
+			</div>
 		</div>
 
-		<div class="mx-auto mt-8 max-w-4xl rounded-3xl bg-mist p-6 sm:p-8" use:reveal>
-			<div class="flex flex-wrap items-start justify-between gap-4">
-				<div class="min-w-0">
-					<h3 class="text-2xl font-bold text-navy">{activeService.name}</h3>
-					<p class="mt-3 max-w-2xl text-base leading-relaxed text-muted">{activeService.description}</p>
+		{#key activeTab}
+			<div class="tab-panel mx-auto mt-8 max-w-4xl rounded-3xl bg-mist p-6 sm:p-8">
+				<div class="flex flex-wrap items-start justify-between gap-4">
+					<div class="min-w-0">
+						<h3 class="text-2xl font-bold text-navy">{activeService.name}</h3>
+						<p class="mt-3 max-w-2xl text-base leading-relaxed text-muted">{activeService.description}</p>
+					</div>
+					<span class="shrink-0 rounded-full bg-brand px-4 py-2 text-sm font-bold text-white">{activeService.priceLabel}</span>
 				</div>
-				<span class="shrink-0 rounded-full bg-brand px-4 py-2 text-sm font-bold text-white">{activeService.priceLabel}</span>
+				<div class="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-navy">
+					<span class="flex items-center gap-2"><Icon name="clock" class="size-4 text-brand" /> {activeService.duration}</span>
+					<span class="flex items-center gap-2"><Icon name="calendar" class="size-4 text-brand" /> {activeService.visits}</span>
+				</div>
+				<div class="mt-6 flex flex-wrap gap-3">
+					<a
+						href="/services/{activeService.slug}"
+						class="btn-arrow inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-brand bg-white px-5 py-2.5 text-sm font-bold text-brand transition hover:bg-mist"
+					>
+						Learn more <Icon name="arrow-right" class="size-4" />
+					</a>
+					<a
+						href="/book-appointment?service={activeService.slug}"
+						class="inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-dark"
+					>
+						<Icon name="calendar" class="size-4" /> Book this service
+					</a>
+				</div>
 			</div>
-			<div class="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-navy">
-				<span class="flex items-center gap-2"><Icon name="clock" class="size-4 text-brand" /> {activeService.duration}</span>
-				<span class="flex items-center gap-2"><Icon name="calendar" class="size-4 text-brand" /> {activeService.visits}</span>
-			</div>
-			<div class="mt-6 flex flex-wrap gap-3">
-				<a
-					href="/services/{activeService.slug}"
-					class="inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-brand bg-white px-5 py-2.5 text-sm font-bold text-brand transition hover:bg-mist"
-				>
-					Learn more <Icon name="arrow-right" class="size-4" />
-				</a>
-				<a
-					href="/book-appointment?service={activeService.slug}"
-					class="inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-dark"
-				>
-					<Icon name="calendar" class="size-4" /> Book this service
-				</a>
-			</div>
-		</div>
+		{/key}
 	</div>
 </section>
 
@@ -221,13 +301,13 @@
 				</div>
 				<a
 					href="/about"
-					class="mt-7 inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white transition hover:bg-brand-dark"
+					class="btn-arrow mt-7 inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white transition hover:bg-brand-dark"
 				>
 					More about us <Icon name="arrow-right" class="size-4" />
 				</a>
 			</div>
 			<div class="relative min-w-0" use:reveal>
-				<div class="overflow-hidden rounded-3xl shadow-xl shadow-teal-900/15">
+				<div class="zoom-img overflow-hidden rounded-3xl shadow-xl shadow-teal-900/15">
 					<img src="/images/about.webp" alt="The NaviX dental team welcoming a patient" class="aspect-[4/3] w-full object-cover" loading="lazy" />
 				</div>
 				<button
@@ -237,6 +317,12 @@
 				>
 					<svg viewBox="0 0 24 24" fill="currentColor" class="size-6 translate-x-0.5" aria-hidden="true"><path d="M8 5.5v13l11-6.5-11-6.5Z" /></svg>
 				</button>
+				<div class="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-sm font-bold text-navy shadow-lg">
+					<span class="flex text-gold" aria-hidden="true">
+						{#each Array(5) as _}<Icon name="star" class="size-4" />{/each}
+					</span>
+					4.9 · 280+ reviews
+				</div>
 			</div>
 		</div>
 	</div>
@@ -248,22 +334,22 @@
 		<div class="grid grid-cols-2 gap-8 lg:grid-cols-4 lg:divide-x lg:divide-slate-200">
 			<div class="min-w-0 text-center">
 				<span class="mx-auto grid size-12 place-items-center rounded-full bg-white text-brand shadow-sm"><Icon name="smile" class="size-6" /></span>
-				<p class="mt-3 text-3xl font-bold text-navy sm:text-4xl">98%</p>
+				<p class="mt-3 text-3xl font-bold text-navy sm:text-4xl"><CountUp value={98} suffix="%" /></p>
 				<p class="mt-1 text-sm font-semibold text-muted">Patient Satisfaction</p>
 			</div>
 			<div class="min-w-0 text-center">
 				<span class="mx-auto grid size-12 place-items-center rounded-full bg-white text-brand shadow-sm"><Icon name="user" class="size-6" /></span>
-				<p class="mt-3 text-3xl font-bold text-navy sm:text-4xl">2K+</p>
+				<p class="mt-3 text-3xl font-bold text-navy sm:text-4xl"><CountUp value={2} suffix="K+" /></p>
 				<p class="mt-1 text-sm font-semibold text-muted">Smiles Transformed</p>
 			</div>
 			<div class="min-w-0 text-center">
 				<span class="mx-auto grid size-12 place-items-center rounded-full bg-white text-brand shadow-sm"><Icon name="star" class="size-6 text-gold" /></span>
-				<p class="mt-3 text-3xl font-bold text-navy sm:text-4xl">4.9/5</p>
+				<p class="mt-3 text-3xl font-bold text-navy sm:text-4xl"><CountUp value={4.9} decimals={1} suffix="/5" /></p>
 				<p class="mt-1 text-sm font-semibold text-muted">Average Rating</p>
 			</div>
 			<div class="min-w-0 text-center">
 				<span class="mx-auto grid size-12 place-items-center rounded-full bg-white text-brand shadow-sm"><Icon name="tooth" class="size-6" /></span>
-				<p class="mt-3 text-3xl font-bold text-navy sm:text-4xl">15+</p>
+				<p class="mt-3 text-3xl font-bold text-navy sm:text-4xl"><CountUp value={15} suffix="+" /></p>
 				<p class="mt-1 text-sm font-semibold text-muted">Years of Excellence</p>
 			</div>
 		</div>
@@ -275,7 +361,7 @@
 	<div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
 		<div class="grid gap-6 lg:grid-cols-2">
 			<!-- Expert card -->
-			<article class="grid min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-mist sm:grid-cols-[220px_1fr]" use:reveal>
+			<article class="lift-card grid min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-mist sm:grid-cols-[220px_1fr]" use:reveal>
 				<img
 					src="/images/dr-anderson.webp"
 					alt="Dr. Michael Anderson, Lead Dental Specialist"
@@ -299,7 +385,7 @@
 					</ul>
 					<a
 						href="/team/dr-michael-anderson"
-						class="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-dark"
+						class="btn-arrow mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-dark"
 					>
 						Meet Dr. Anderson <Icon name="arrow-right" class="size-4" />
 					</a>
@@ -307,7 +393,7 @@
 			</article>
 
 			<!-- Clinic card -->
-			<article class="relative min-w-0 overflow-hidden rounded-3xl shadow-lg shadow-teal-900/10" use:reveal>
+			<article class="lift-card relative min-w-0 overflow-hidden rounded-3xl shadow-lg shadow-teal-900/10" use:reveal>
 				<img src="/images/clinic.webp" alt="Inside the state-of-the-art NaviX clinic" class="h-full min-h-[320px] w-full object-cover" loading="lazy" />
 				<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/95 via-navy/75 to-navy/10 p-6 pt-28">
 					<h3 class="text-2xl font-bold text-white">State-of-the-Art Clinic</h3>
@@ -338,7 +424,7 @@
 
 		<div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 			{#each services as s}
-				<article class="flex min-w-0 flex-col rounded-3xl bg-white p-6 shadow-sm transition hover:shadow-lg" use:reveal>
+				<article class="lift-card flex min-w-0 flex-col rounded-3xl bg-white p-6 shadow-sm transition hover:shadow-lg" use:reveal>
 					<span class="grid size-12 place-items-center rounded-2xl bg-mist text-brand"><Icon name={s.icon} class="size-6" /></span>
 					<h3 class="mt-4 text-xl font-bold text-navy">{s.name}</h3>
 					<p class="mt-2 flex-1 text-sm leading-relaxed text-muted">{s.short}</p>
@@ -352,13 +438,23 @@
 			{/each}
 		</div>
 
+		<!-- Emergency strip -->
 		<div
 			class="mt-8 flex flex-col items-start justify-between gap-4 rounded-3xl bg-navy p-6 text-white sm:flex-row sm:items-center sm:p-7"
 			use:reveal
 		>
-			<p class="min-w-0 text-base font-semibold sm:text-lg">
-				Dental emergency? Call <a class="text-teal-300 underline hover:text-white" href="tel:+15125550148">+1 (512) 555-0148</a> — same-day appointments available.
-			</p>
+			<div class="min-w-0">
+				<p class="flex flex-wrap items-center gap-2 text-base font-bold sm:text-lg">
+					Dental emergency?
+					<span class="rounded-full bg-brand px-2.5 py-0.5 text-xs font-bold text-white">Same-day appointments</span>
+				</p>
+				<p class="mt-1 text-sm text-slate-300">
+					Severe pain, a broken tooth or a knocked-out tooth — call
+					<a class="font-semibold text-teal-300 underline hover:text-white" href="tel:+15125550148">+1 (512) 555-0148</a>
+					and we will do our best to see you today.
+					<a class="font-semibold text-teal-300 underline hover:text-white" href="/emergency">What counts as an emergency?</a>
+				</p>
+			</div>
 			<a
 				href="tel:+15125550148"
 				class="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-bold text-white transition hover:bg-brand-dark"
@@ -367,6 +463,32 @@
 			</a>
 		</div>
 	</div>
+</section>
+
+<!-- ============ INSURANCE MARQUEE ============ -->
+<section class="border-y border-slate-200 bg-white py-8" aria-label="Insurance plans we accept">
+	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+		<p class="text-center text-xs font-bold tracking-[0.24em] text-brand uppercase" use:reveal>
+			We accept most major insurance plans
+		</p>
+	</div>
+	<div class="marquee mt-5" use:reveal>
+		<div class="marquee-track gap-3 pr-3">
+			{#each [...insurers, ...insurers] as ins, i}
+				<a
+					href="/insurance"
+					aria-hidden={i >= insurers.length ? 'true' : undefined}
+					tabindex={i >= insurers.length ? -1 : undefined}
+					class="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-mist px-5 py-2.5 text-sm font-bold whitespace-nowrap text-navy transition hover:border-brand hover:text-brand"
+				>
+					<ShieldCheck class="size-4 text-brand" /> {ins}
+				</a>
+			{/each}
+		</div>
+	</div>
+	<p class="mt-4 text-center text-sm text-muted">
+		Not sure your plan is covered? <a class="font-bold text-brand underline hover:text-brand-dark" href="/insurance">Check your coverage</a>
+	</p>
 </section>
 
 <!-- ============ WHY CHOOSE US ============ -->
@@ -378,7 +500,7 @@
 		</div>
 		<div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 			{#each whyItems as w}
-				<article class="min-w-0 rounded-3xl border border-slate-200 p-6" use:reveal>
+				<article class="lift-card min-w-0 rounded-3xl border border-slate-200 p-6" use:reveal>
 					<span class="grid size-12 place-items-center rounded-2xl bg-mist text-brand"><Icon name={w.icon} class="size-6" /></span>
 					<h3 class="mt-4 text-lg font-bold text-navy">{w.title}</h3>
 					<p class="mt-2 text-sm leading-relaxed text-muted">{w.text}</p>
@@ -397,7 +519,7 @@
 		</div>
 		<div class="mt-10 grid gap-6 md:grid-cols-3">
 			{#each steps as s}
-				<article class="min-w-0 rounded-3xl bg-white p-6 text-center shadow-sm" use:reveal>
+				<article class="lift-card min-w-0 rounded-3xl bg-white p-6 text-center shadow-sm" use:reveal>
 					<span class="mx-auto grid size-12 place-items-center rounded-full bg-brand text-lg font-bold text-white">{s.n}</span>
 					<h3 class="mt-4 text-lg font-bold text-navy">{s.title}</h3>
 					<p class="mt-2 text-sm leading-relaxed text-muted">{s.text}</p>
@@ -407,29 +529,80 @@
 	</div>
 </section>
 
-<!-- ============ TESTIMONIALS ============ -->
+<!-- ============ TESTIMONIALS (SLIDER) ============ -->
 <section class="bg-white">
 	<div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
 		<div class="text-center" use:reveal>
 			<p class="text-xs font-bold tracking-[0.24em] text-brand uppercase">Patient Stories</p>
 			<h2 class="mt-3 text-3xl font-bold text-navy sm:text-4xl">Smiles that say it best</h2>
-		</div>
-		<div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-			{#each testimonials as t}
-				<figure class="flex min-w-0 flex-col rounded-3xl border border-slate-200 bg-mist p-6" use:reveal>
-					<span class="flex text-gold" aria-label="Rated {t.rating} out of 5">
-						{#each Array(t.rating) as _}<Icon name="star" class="size-4" />{/each}
+			<p class="mx-auto mt-3 max-w-xl text-base text-muted">
+				<span class="flex items-center justify-center gap-2 font-semibold text-navy">
+					<span class="flex text-gold" aria-label="Rated 4.9 out of 5">
+						{#each Array(5) as _}<Icon name="star" class="size-4" />{/each}
 					</span>
-					<blockquote class="mt-3 flex-1 text-sm leading-relaxed text-navy">&ldquo;{t.text}&rdquo;</blockquote>
-					<figcaption class="mt-4 flex items-center gap-3">
-						<span class="grid size-10 shrink-0 place-items-center rounded-full bg-brand text-xs font-bold text-white">{t.initials}</span>
-						<span class="min-w-0">
-							<span class="block text-sm font-bold text-navy">{t.name}</span>
-							<span class="block text-xs text-muted">{t.service}</span>
+					4.9/5 · 280+ verified reviews
+				</span>
+				<a class="mt-1 inline-block font-bold text-brand underline hover:text-brand-dark" href="/reviews">Read all patient reviews</a>
+			</p>
+		</div>
+
+		<div
+			class="relative mx-auto mt-10 max-w-3xl"
+			role="region"
+			aria-label="Patient testimonials"
+			use:reveal
+			onmouseenter={() => (tPaused = true)}
+			onmouseleave={() => (tPaused = false)}
+		>
+			{#key tIndex}
+				<figure class="slide-fade rounded-3xl border border-slate-200 bg-mist p-8 text-center sm:p-10">
+					<span class="flex justify-center text-gold" aria-label="Rated {featured.rating} out of 5">
+						{#each Array(featured.rating) as _}<Icon name="star" class="size-5" />{/each}
+					</span>
+					<blockquote class="mt-4 text-lg leading-relaxed font-medium text-navy sm:text-xl">
+						&ldquo;{featured.text}&rdquo;
+					</blockquote>
+					<figcaption class="mt-6 flex items-center justify-center gap-3">
+						<span class="grid size-11 shrink-0 place-items-center rounded-full bg-brand text-sm font-bold text-white">{featured.initials}</span>
+						<span class="text-left">
+							<span class="block text-sm font-bold text-navy">{featured.name}</span>
+							<span class="block text-xs text-muted">{featured.service}</span>
 						</span>
 					</figcaption>
 				</figure>
-			{/each}
+			{/key}
+
+			<button
+				type="button"
+				aria-label="Previous testimonial"
+				class="absolute top-1/2 -left-2 grid size-11 -translate-y-1/2 place-items-center rounded-full border border-slate-200 bg-white text-navy shadow-md transition hover:bg-mist sm:-left-6"
+				onclick={() => (tIndex = (tIndex - 1 + testimonials.length) % testimonials.length)}
+			>
+				<ChevronLeft class="size-5" />
+			</button>
+			<button
+				type="button"
+				aria-label="Next testimonial"
+				class="absolute top-1/2 -right-2 grid size-11 -translate-y-1/2 place-items-center rounded-full border border-slate-200 bg-white text-navy shadow-md transition hover:bg-mist sm:-right-6"
+				onclick={() => (tIndex = (tIndex + 1) % testimonials.length)}
+			>
+				<ChevronRight class="size-5" />
+			</button>
+
+			<div class="mt-6 flex items-center justify-center gap-2" role="tablist" aria-label="Choose testimonial">
+				{#each testimonials as _, i}
+					<button
+						type="button"
+						role="tab"
+						aria-selected={tIndex === i}
+						aria-label="Show testimonial {i + 1}"
+						class="h-2.5 rounded-full transition-all duration-300 {tIndex === i
+							? 'w-8 bg-brand'
+							: 'w-2.5 bg-slate-300 hover:bg-brand/50'}"
+						onclick={() => (tIndex = i)}
+					></button>
+				{/each}
+			</div>
 		</div>
 	</div>
 </section>
@@ -471,7 +644,7 @@
 		<div class="mt-6 text-center">
 			<a
 				href="/faq"
-				class="inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white transition hover:bg-brand-dark"
+				class="btn-arrow inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white transition hover:bg-brand-dark"
 			>
 				See all FAQs <Icon name="arrow-right" class="size-4" />
 			</a>
@@ -487,13 +660,13 @@
 				<p class="text-xs font-bold tracking-[0.24em] text-brand uppercase">From the Blog</p>
 				<h2 class="mt-3 text-3xl font-bold text-navy sm:text-4xl">Smile care, explained simply</h2>
 			</div>
-			<a href="/blog" class="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-brand hover:text-brand-dark">
+			<a href="/blog" class="btn-arrow inline-flex min-h-11 items-center gap-2 text-sm font-bold text-brand hover:text-brand-dark">
 				View all articles <Icon name="arrow-right" class="size-4" />
 			</a>
 		</div>
 		<div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 			{#each blogPosts as p}
-				<article class="min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg" use:reveal>
+				<article class="lift-card zoom-img min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg" use:reveal>
 					<img src={p.image} alt={p.title} class="aspect-[16/9] w-full object-cover" loading="lazy" />
 					<div class="p-6">
 						<p class="text-xs font-bold tracking-wide text-brand uppercase">{p.category} · {p.date}</p>
@@ -518,6 +691,13 @@
 		>
 			<h2 class="text-3xl font-bold sm:text-4xl">Ready for a healthier smile?</h2>
 			<p class="mx-auto mt-3 max-w-xl text-base text-teal-100">Book your visit today — new patients welcome.</p>
+			<p class="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-white">
+				<span class="flex text-gold" aria-label="Rated 4.9 out of 5">
+					{#each Array(5) as _}<Icon name="star" class="size-4" />{/each}
+				</span>
+				4.9/5 from 280+ patients ·
+				<a class="underline hover:text-teal-100" href="/reviews">Read patient reviews</a>
+			</p>
 			<div class="mt-7 flex flex-wrap items-center justify-center gap-3">
 				<a
 					href="/book-appointment"

@@ -120,5 +120,77 @@ export const services: Service[] = [
 			{ title: 'Whiten in-clinic', text: 'A professional gel is applied and monitored for about an hour.' },
 			{ title: 'Keep it bright', text: 'Simple tips and, if you like, a take-home kit to top up the result.' }
 		]
+	},
+	{
+		slug: 'orthodontics-aligners',
+		name: 'Orthodontics — Clear Aligners',
+		short: 'Invisalign clear aligners that straighten teeth discreetly, with a 3D preview of your new smile.',
+		description:
+			'Clear aligners straighten your teeth without brackets or wires. We scan your teeth in 3D, show you a preview of your finished smile before you start, and plan each aligner in the series. You wear the aligners day and night, take them out to eat and brush, and come back every few weeks so we can check your progress. Most treatments take 6–18 months, depending on how much movement is needed.',
+		icon: 'smile',
+		priceFrom: 3499,
+		priceLabel: 'From $3,499',
+		visits: 'Every 6–8 weeks',
+		duration: '6–18 months',
+		includes: ['3D scan & smile preview', 'Invisalign clear aligners', 'Retainers included', 'Progress check-ups'],
+		steps: [
+			{ title: 'Scan & preview', text: 'A 3D scan of your teeth lets you preview your new smile before treatment begins.' },
+			{ title: 'Wear your aligners', text: 'Change to a new set every 1–2 weeks and visit us every 6–8 weeks for a check.' },
+			{ title: 'Retain your smile', text: 'Retainers keep your teeth in place once treatment is finished.' }
+		]
+	},
+	{
+		slug: 'pediatric-dentistry',
+		name: 'Pediatric Dentistry',
+		short: 'Gentle, friendly dental care for children — from first check-ups to sealants and fluoride.',
+		description:
+			'Children deserve a dentist who makes them feel safe. First visits are kept short and friendly, with plenty of time to look around, ask questions and get comfortable in the chair. We check how teeth are coming through, offer fluoride and sealants where they help, and give parents simple at-home tips. Dr. Sarah Chen leads our children’s care, and parents are welcome in the room throughout.',
+		icon: 'heart',
+		priceFrom: 69,
+		priceLabel: 'From $69',
+		visits: 'Every 6 months',
+		duration: '30–45 min',
+		includes: ['Gentle first visits', 'Fluoride & sealants', 'Growth & development checks', 'Parents welcome in the room'],
+		steps: [
+			{ title: 'A friendly first visit', text: 'A short, relaxed introduction — a ride in the chair, a look around, no pressure.' },
+			{ title: 'Check-up & clean', text: 'A gentle exam, cleaning and fluoride, with sealants if they would help.' },
+			{ title: 'Tips for home', text: 'Simple brushing and diet tips for parents, and the next six-month visit booked.' }
+		]
+	},
+	{
+		slug: 'root-canal',
+		name: 'Root Canal Treatment',
+		short: 'Dedicated root canal care that relieves tooth pain — usually in a single, comfortable visit.',
+		description:
+			'Root canal treatment saves a tooth that is badly infected or damaged inside. The infected tissue is gently removed, the inside of the tooth is cleaned and sealed, and the tooth is restored — usually with a crown. Dr. Emily Rodriguez, our endodontics specialist, performs the treatment with effective numbing and a calm, unhurried approach, so most patients say it was far easier than they expected. Restorative treatment also mentions root canal care in general; this dedicated service covers the full root canal process in detail.',
+		icon: 'tooth',
+		priceFrom: 899,
+		priceLabel: 'From $899',
+		visits: '1–2 visits',
+		duration: '60–90 min',
+		includes: ['Pain relief first', 'Digital X-ray diagnosis', 'Single-visit treatment where possible', 'Crown advice & follow-up'],
+		steps: [
+			{ title: 'Diagnose the cause', text: 'Digital X-rays find the source of the pain and confirm a root canal is the right fix.' },
+			{ title: 'Gentle treatment', text: 'The tooth is numbed, the infection is cleaned out and the tooth is sealed.' },
+			{ title: 'Restore & review', text: 'A crown is usually fitted to protect the tooth, with a follow-up check to confirm healing.' }
+		]
+	},
+	{
+		slug: 'crowns-fillings',
+		name: 'Crowns & Fillings',
+		short: 'Tooth-coloured fillings and durable crowns that repair damage and restore your bite.',
+		description:
+			'When a tooth is chipped, cracked or decayed, a filling or crown brings it back to full strength. Small damage is repaired with a tooth-coloured filling matched to your natural shade, while larger damage is protected with a custom-made crown. We use digital impressions where possible, check your bite carefully, and most fillings and crowns are completed in one or two visits.',
+		icon: 'sparkle',
+		priceFrom: 199,
+		priceLabel: 'From $199',
+		visits: '1–2 visits',
+		duration: '45–90 min',
+		includes: ['Tooth-coloured fillings', 'Custom-made crowns', 'Digital impressions', 'Bite check & polish'],
+		steps: [
+			{ title: 'Assess the damage', text: 'We examine the tooth and explain whether a filling or a crown is the better fix.' },
+			{ title: 'Repair the tooth', text: 'Decay is removed and the filling or crown is fitted, matched to your natural teeth.' },
+			{ title: 'Check & protect', text: 'Your bite is checked, the tooth is polished, and we book a review if needed.' }
+		]
 	}
 ];

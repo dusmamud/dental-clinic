@@ -17,6 +17,17 @@
   <url><loc>https://navix-dental.pages.dev/services/restorative-treatment</loc><priority>0.7</priority></url>
   <url><loc>https://navix-dental.pages.dev/services/dental-implants</loc><priority>0.7</priority></url>
   <url><loc>https://navix-dental.pages.dev/services/teeth-whitening</loc><priority>0.7</priority></url>
+  <url><loc>https://navix-dental.pages.dev/services/orthodontics-aligners</loc><priority>0.7</priority></url>
+  <url><loc>https://navix-dental.pages.dev/services/pediatric-dentistry</loc><priority>0.7</priority></url>
+  <url><loc>https://navix-dental.pages.dev/services/root-canal</loc><priority>0.7</priority></url>
+  <url><loc>https://navix-dental.pages.dev/services/crowns-fillings</loc><priority>0.7</priority></url>
+  <url><loc>https://navix-dental.pages.dev/new-patients</loc><priority>0.8</priority></url>
+  <url><loc>https://navix-dental.pages.dev/insurance</loc><priority>0.8</priority></url>
+  <url><loc>https://navix-dental.pages.dev/pricing</loc><priority>0.8</priority></url>
+  <url><loc>https://navix-dental.pages.dev/emergency</loc><priority>0.8</priority></url>
+  <url><loc>https://navix-dental.pages.dev/reviews</loc><priority>0.8</priority></url>
+  <url><loc>https://navix-dental.pages.dev/smile-gallery</loc><priority>0.8</priority></url>
+  <url><loc>https://navix-dental.pages.dev/sitemap</loc><priority>0.5</priority></url>
   <url><loc>https://navix-dental.pages.dev/team/dr-michael-anderson</loc><priority>0.6</priority></url>
   <url><loc>https://navix-dental.pages.dev/team/dr-sarah-chen</loc><priority>0.6</priority></url>
   <url><loc>https://navix-dental.pages.dev/team/dr-james-patel</loc><priority>0.6</priority></url>

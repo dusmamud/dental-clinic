@@ -73,3 +73,21 @@
 <Header />
 <main>{@render children()}</main>
 <Footer />
+<!-- Footer spacer so the sticky mobile bar never covers legal links -->
+<div class="h-16 lg:hidden" aria-hidden="true"></div>
+
+<!-- Sticky mobile bottom bar -->
+<div
+	class="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 gap-2 border-t border-slate-200 bg-white/95 px-3 py-2 backdrop-blur lg:hidden"
+>
+	<a
+		href="tel:+15125550148"
+		class="flex min-h-12 items-center justify-center gap-2 rounded-full border-2 border-brand text-sm font-bold text-brand"
+		>Call +1 (512) 555-0148</a
+	>
+	<a
+		href="/book-appointment"
+		class="flex min-h-12 items-center justify-center gap-2 rounded-full bg-brand text-sm font-bold text-white shadow-lg shadow-teal-700/25"
+		>Book Appointment</a
+	>
+</div>

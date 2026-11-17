@@ -3,6 +3,19 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
+		<script>
+			// Motion gate (before paint): only add .motion-ok when the user has
+			// NOT asked for reduced motion. All hidden reveal/entrance state in
+			// app.css applies only under .motion-ok, so no-JS and reduced-motion
+			// users always see fully visible content.
+			(function () {
+				try {
+					if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+						document.documentElement.classList.add('motion-ok');
+					}
+				} catch (e) {}
+			})();
+		</script>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="apple-touch-icon" href="/favicon.svg" />
 		%sveltekit.head%
