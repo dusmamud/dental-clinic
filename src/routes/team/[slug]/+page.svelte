@@ -60,7 +60,7 @@
 			{/if}
 			<div class="mt-5 rounded-3xl bg-mist p-5 text-center">
 				<p class="flex items-center justify-center gap-1.5 text-sm text-[#5B6B74]">
-					<span class="flex text-amber-400" aria-label="Rated {member.rating} out of 5">
+					<span class="flex text-amber-400" role="img" aria-label="Rated {member.rating} out of 5">
 						{#each Array(5) as _}<Icon name="star" class="size-4" />{/each}
 					</span>
 					<span class="font-bold text-navy">{member.rating}</span>

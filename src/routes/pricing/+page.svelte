@@ -78,7 +78,7 @@
 					href="/services/{service.slug}"
 					class="mt-5 inline-flex min-h-11 items-center gap-1.5 self-start rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-white transition hover:opacity-90"
 				>
-					Learn more <Icon name="arrow-right" class="size-4" />
+					Learn more <span class="sr-only">about {service.name}</span> <Icon name="arrow-right" class="size-4" />
 				</a>
 			</article>
 		{/each}

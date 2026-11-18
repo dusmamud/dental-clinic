@@ -27,7 +27,7 @@
 	>
 		<div class="min-w-0">
 			<p class="text-5xl font-extrabold text-navy sm:text-6xl">4.9<span class="text-3xl text-[#5B6B74]">/5</span></p>
-			<div class="mt-2 flex items-center justify-center gap-1 text-gold sm:justify-start" aria-label="Rated 4.9 out of 5 stars">
+			<div class="mt-2 flex items-center justify-center gap-1 text-gold sm:justify-start" role="img" aria-label="Rated 4.9 out of 5 stars">
 				{#each Array(5) as _}
 					<Icon name="star" class="size-5" />
 				{/each}
@@ -61,7 +61,7 @@
 				class="flex min-w-0 flex-col rounded-3xl border border-slate-100 bg-white p-6 shadow-sm"
 				use:reveal
 			>
-				<div class="flex items-center gap-1 text-gold" aria-label="Rated {t.rating} out of 5 stars">
+				<div class="flex items-center gap-1 text-gold" role="img" aria-label="Rated {t.rating} out of 5 stars">
 					{#each Array(5) as _, i}
 						<Icon name="star" class="size-4 {i < t.rating ? '' : 'opacity-30'}" />
 					{/each}

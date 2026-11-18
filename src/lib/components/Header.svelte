@@ -44,7 +44,7 @@
 			? 'h-14'
 			: 'h-16'}"
 	>
-		<a href="/" class="flex min-w-0 items-center gap-2.5" aria-label="NaviX Technologies — home">
+		<a href="/" class="flex min-w-0 items-center gap-2.5" aria-label="NaviX Technologies Family Dental Care — home">
 			<span class="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
 				<Icon name="tooth" class="size-6" />
 			</span>

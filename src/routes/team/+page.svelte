@@ -45,7 +45,7 @@
 					<h2 class="text-lg font-bold text-navy">{member.name}</h2>
 					<p class="mt-0.5 text-sm font-semibold text-brand">{member.role}</p>
 					<p class="mt-2 flex items-center gap-1.5 text-sm text-[#5B6B74]">
-						<span class="flex text-amber-400" aria-label="Rated {member.rating} out of 5">
+						<span class="flex text-amber-400" role="img" aria-label="Rated {member.rating} out of 5">
 							{#each Array(5) as _}<Icon name="star" class="size-4" />{/each}
 						</span>
 						<span class="font-bold text-navy">{member.rating}</span>

@@ -137,7 +137,7 @@
 					</a>
 				</div>
 				<p class="hero-anim mt-5 flex items-center gap-2 text-sm font-semibold text-navy" style="--delay: 300ms">
-					<span class="flex text-gold" aria-label="Rated 4.9 out of 5">
+					<span class="flex text-gold" role="img" aria-label="Rated 4.9 out of 5">
 						{#each Array(5) as _}<Icon name="star" class="size-4" />{/each}
 					</span>
 					4.9/5 · 280+ reviews · New patients welcome
@@ -271,7 +271,7 @@
 						href="/services/{activeService.slug}"
 						class="btn-arrow inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-brand bg-white px-5 py-2.5 text-sm font-bold text-brand transition hover:bg-mist"
 					>
-						Learn more <Icon name="arrow-right" class="size-4" />
+						Learn more <span class="sr-only">about {activeService.name}</span> <Icon name="arrow-right" class="size-4" />
 					</a>
 					<a
 						href="/book-appointment?service={activeService.slug}"
@@ -302,7 +302,7 @@
 					<div class="flex -space-x-2">
 						<span class="grid size-11 place-items-center rounded-full bg-brand text-xs font-bold text-white ring-2 ring-white">RM</span>
 						<span class="grid size-11 place-items-center rounded-full bg-navy text-xs font-bold text-white ring-2 ring-white">DK</span>
-						<span class="grid size-11 place-items-center rounded-full bg-gold text-xs font-bold text-white ring-2 ring-white">PS</span>
+						<span class="grid size-11 place-items-center rounded-full bg-gold text-xs font-bold text-navy ring-2 ring-white">PS</span>
 					</div>
 					<p class="text-sm font-semibold text-navy">
 						Trusted by Thousands<br /><span class="font-normal text-muted">of Happy Patients</span>
@@ -386,7 +386,7 @@
 					<h3 class="mt-2 text-2xl font-bold text-navy">{lead.name}</h3>
 					<p class="text-sm font-semibold text-muted">{lead.role}</p>
 					<p class="mt-3 flex items-center gap-2 text-sm font-semibold text-navy">
-						<span class="flex text-gold" aria-label="Rated 4.9 out of 5">
+						<span class="flex text-gold" role="img" aria-label="Rated 4.9 out of 5">
 							{#each Array(5) as _}<Icon name="star" class="size-4" />{/each}
 						</span>
 						4.9 (280+ reviews)
@@ -444,7 +444,7 @@
 					<div class="mt-4 flex items-center justify-between gap-3">
 						<span class="text-sm font-bold text-brand">{s.priceLabel}</span>
 						<a href="/services/{s.slug}" class="inline-flex min-h-11 items-center gap-1.5 text-sm font-bold text-navy hover:text-brand">
-							Learn more <Icon name="arrow-right" class="size-4" />
+							Learn more <span class="sr-only">about {s.name}</span> <Icon name="arrow-right" class="size-4" />
 						</a>
 					</div>
 				</article>
@@ -550,7 +550,7 @@
 			<h2 class="mt-3 text-3xl font-bold text-navy sm:text-4xl">Smiles that say it best</h2>
 			<p class="mx-auto mt-3 max-w-xl text-base text-muted">
 				<span class="flex items-center justify-center gap-2 font-semibold text-navy">
-					<span class="flex text-gold" aria-label="Rated 4.9 out of 5">
+					<span class="flex text-gold" role="img" aria-label="Rated 4.9 out of 5">
 						{#each Array(5) as _}<Icon name="star" class="size-4" />{/each}
 					</span>
 					4.9/5 · 280+ verified reviews
@@ -569,7 +569,7 @@
 		>
 			{#key tIndex}
 				<figure class="slide-fade rounded-3xl border border-slate-200 bg-mist p-8 text-center sm:p-10">
-					<span class="flex justify-center text-gold" aria-label="Rated {featured.rating} out of 5">
+					<span class="flex justify-center text-gold" role="img" aria-label="Rated {featured.rating} out of 5">
 						{#each Array(featured.rating) as _}<Icon name="star" class="size-5" />{/each}
 					</span>
 					<blockquote class="mt-4 text-lg leading-relaxed font-medium text-navy sm:text-xl">
@@ -613,9 +613,9 @@
 						onclick={() => (tIndex = i)}
 					>
 						<span
-							class="h-2.5 rounded-full transition-all duration-300 {tIndex === i
-								? 'w-8 bg-brand'
-								: 'w-2.5 bg-slate-300 group-hover:bg-brand/50'}"
+							class="h-2.5 w-8 origin-center rounded-full transition-transform duration-300 {tIndex === i
+								? 'scale-x-100 bg-brand'
+								: 'scale-x-[0.3125] bg-slate-300 group-hover:bg-brand/50'}"
 						></span>
 					</button>
 				{/each}
@@ -709,7 +709,7 @@
 			<h2 class="text-3xl font-bold sm:text-4xl">Ready for a healthier smile?</h2>
 			<p class="mx-auto mt-3 max-w-xl text-base text-teal-100">Book your visit today — new patients welcome.</p>
 			<p class="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-white">
-				<span class="flex text-gold" aria-label="Rated 4.9 out of 5">
+				<span class="flex text-gold" role="img" aria-label="Rated 4.9 out of 5">
 					{#each Array(5) as _}<Icon name="star" class="size-4" />{/each}
 				</span>
 				4.9/5 from 280+ patients ·
