@@ -373,7 +373,7 @@
 			<article class="lift-card grid min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-mist sm:grid-cols-[220px_1fr]" use:reveal>
 				<img
 					src="/images/dr-anderson.webp"
-					srcset="/images/dr-anderson-480.webp 480w, /images/dr-anderson-800.webp 800w, /images/dr-anderson-1200.webp 1200w, /images/dr-anderson.webp 1280w"
+					srcset="/images/dr-anderson-320.webp 320w, /images/dr-anderson-480.webp 480w, /images/dr-anderson-800.webp 800w, /images/dr-anderson-1200.webp 1200w, /images/dr-anderson.webp 1280w"
 					sizes="(max-width: 640px) 100vw, 220px"
 					width="1280"
 					height="1920"
@@ -407,7 +407,7 @@
 
 			<!-- Clinic card -->
 			<article class="lift-card relative min-w-0 overflow-hidden rounded-3xl shadow-lg shadow-teal-900/10" use:reveal>
-				<img src="/images/clinic.webp" srcset="/images/clinic-480.webp 480w, /images/clinic-800.webp 800w, /images/clinic-1200.webp 1200w, /images/clinic.webp 1920w" sizes="(max-width: 1024px) 100vw, 596px" width="1920" height="1280" alt="Inside the state-of-the-art NaviX clinic" class="h-full min-h-[320px] w-full object-cover" loading="lazy" />
+				<img src="/images/clinic.webp" srcset="/images/clinic-480.webp 480w, /images/clinic-600.webp 600w, /images/clinic-800.webp 800w, /images/clinic-1200.webp 1200w, /images/clinic.webp 1920w" sizes="(max-width: 1024px) 100vw, 596px" width="1920" height="1280" alt="Inside the state-of-the-art NaviX clinic" class="h-full min-h-[320px] w-full object-cover" loading="lazy" />
 				<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/95 via-navy/75 to-navy/10 p-6 pt-28">
 					<h3 class="text-2xl font-bold text-white">State-of-the-Art Clinic</h3>
 					<p class="mt-1 text-sm text-slate-200">Modern treatment rooms, digital imaging and a calm, comfortable space.</p>
