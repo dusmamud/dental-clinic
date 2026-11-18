@@ -16,11 +16,14 @@
 	const activeService = $derived(services.find((s) => s.slug === activeTab) ?? services[0]);
 
 	// Sliding tab underline: measure the active button's position.
+	// Composited-only: the span has a fixed 100px base width; position is
+	// translateX and width is scaleX, so only transform animates (no
+	// layout-triggering left/width). Visually identical to the old animation.
 	let tablistEl: HTMLDivElement | undefined = $state();
-	let indicator = $state({ left: 0, width: 0 });
+	let indicator = $state({ left: 0, scaleX: 0 });
 	function updateIndicator() {
 		const btn = tablistEl?.querySelector<HTMLButtonElement>(`[data-tab="${activeTab}"]`);
-		if (btn) indicator = { left: btn.offsetLeft, width: btn.offsetWidth };
+		if (btn) indicator = { left: btn.offsetLeft, scaleX: btn.offsetWidth / 100 };
 	}
 	$effect(() => {
 		activeTab;
@@ -246,8 +249,8 @@
 					</button>
 				{/each}
 				<span
-					class="absolute bottom-0 h-[3px] rounded-full bg-brand transition-all duration-300 ease-out"
-					style="left: {indicator.left}px; width: {indicator.width}px"
+					class="absolute bottom-0 left-0 h-[3px] w-[100px] origin-left rounded-full bg-brand transition-transform duration-300 ease-out"
+					style="transform: translateX({indicator.left}px) scaleX({indicator.scaleX})"
 					aria-hidden="true"
 				></span>
 			</div>
@@ -690,7 +693,7 @@
 						<h3 class="mt-2 text-lg leading-snug font-bold text-navy">{p.title}</h3>
 						<p class="mt-2 text-sm leading-relaxed text-muted">{p.excerpt}</p>
 						<a href="/blog/{p.slug}" class="mt-4 inline-flex min-h-11 items-center gap-1.5 text-sm font-bold text-brand hover:text-brand-dark">
-							Read article <Icon name="arrow-right" class="size-4" />
+							Read article <span class="sr-only">about {p.title}</span> <Icon name="arrow-right" class="size-4" />
 						</a>
 					</div>
 				</article>

@@ -45,7 +45,7 @@
 						href="/blog/{post.slug}"
 						class="mt-5 inline-flex min-h-11 items-center gap-1.5 text-sm font-bold text-brand"
 					>
-						Read article <Icon name="arrow-right" class="size-4" />
+						Read article <span class="sr-only">about {post.title}</span> <Icon name="arrow-right" class="size-4" />
 					</a>
 				</div>
 			</article>
