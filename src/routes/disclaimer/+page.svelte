@@ -5,10 +5,6 @@
 
 <svelte:head>
 	<title>Disclaimer | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Disclaimer for the NaviX Technologies demo website: mock content, not medical advice, and what to do in a dental emergency."
-	/>
 </svelte:head>
 
 <PageHero

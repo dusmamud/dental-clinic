@@ -7,10 +7,6 @@
 
 <svelte:head>
 	<title>Our Services | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Dental services for every smile — checkups, cleanings, cosmetic dentistry, restorative treatment, implants and whitening at NaviX Technologies in Austin, TX."
-	/>
 </svelte:head>
 
 <PageHero

@@ -6,7 +6,6 @@
 
 <svelte:head>
 	<title>Page not found | NaviX Technologies</title>
-	<meta name="description" content="The page you were looking for doesn't exist on the NaviX Technologies website." />
 </svelte:head>
 
 <section class="bg-mist py-20 sm:py-28">

@@ -5,10 +5,6 @@
 
 <svelte:head>
 	<title>Terms of Use | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Terms of use for the NaviX Technologies demo website: demo content, illustrative prices, and appointment requests."
-	/>
 </svelte:head>
 
 <PageHero

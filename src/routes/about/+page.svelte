@@ -54,10 +54,6 @@
 
 <svelte:head>
 	<title>About Us | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Care with compassion and advanced technology — meet the team behind NaviX Technologies, Austin's family dental clinic since 2010."
-	/>
 </svelte:head>
 
 <PageHero
@@ -100,6 +96,10 @@
 		<div class="relative min-w-0" use:reveal>
 			<img
 				src="/images/about.webp"
+				srcset="/images/about-480.webp 480w, /images/about-800.webp 800w, /images/about-1200.webp 1200w, /images/about.webp 1920w"
+				sizes="(max-width: 1024px) 100vw, 576px"
+				width="1920"
+				height="1280"
 				alt="The NaviX Technologies dental team welcoming a patient in the bright Austin clinic"
 				loading="lazy"
 				class="aspect-[4/3] w-full rounded-3xl object-cover shadow-xl"

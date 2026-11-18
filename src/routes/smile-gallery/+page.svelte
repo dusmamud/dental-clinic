@@ -2,6 +2,7 @@
 	import PageHero from '#lib/components/PageHero.svelte';
 	import Icon from '#lib/components/Icon.svelte';
 	import { reveal } from '#lib/actions/reveal';
+	import { imgSrcset } from '#lib/data/images';
 
 	const cases = [
 		{
@@ -57,10 +58,6 @@
 
 <svelte:head>
 	<title>Smile Gallery | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Illustrative smile results from NaviX Technologies in Austin — whitening, clear aligners, veneers, implants and crowns. Demo examples, not real patients."
-	/>
 </svelte:head>
 
 <PageHero
@@ -88,6 +85,10 @@
 				<div class="relative">
 					<img
 						src={item.image}
+						srcset={imgSrcset(item.image)}
+						sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+						width={item.image.includes('dr-anderson') ? 1280 : 1920}
+						height={item.image.includes('dr-anderson') ? 1920 : 1280}
 						alt="Illustrative example of {item.procedure} at NaviX Technologies"
 						loading="lazy"
 						class="aspect-[4/3] w-full object-cover {item.position}"

@@ -9,10 +9,6 @@
 
 <svelte:head>
 	<title>Transparent Pricing | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Clear starting prices for every NaviX Technologies treatment — from smile assessments to implants and clear aligners. Exact quotes follow a personal assessment."
-	/>
 </svelte:head>
 
 <PageHero

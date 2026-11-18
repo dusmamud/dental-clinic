@@ -3,16 +3,37 @@
 	import Icon from '#lib/components/Icon.svelte';
 	import { reveal } from '#lib/actions/reveal';
 	import { services } from '#lib/data/services';
+	import { SITE_URL } from '#lib/data/seo';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 	const service = $derived(data.service);
 	const others = $derived(services.filter((s) => s.slug !== service.slug));
+	const canonical = $derived(`${SITE_URL}/services/${service.slug}`);
+
+	const serviceJsonLd = $derived({
+		'@context': 'https://schema.org',
+		'@type': 'Service',
+		name: service.name,
+		description: service.short,
+		provider: {
+			'@type': 'Dentist',
+			'@id': `${SITE_URL}/#dentist`,
+			name: 'NaviX Technologies',
+			url: SITE_URL
+		},
+		offers: {
+			'@type': 'Offer',
+			price: service.priceFrom,
+			priceCurrency: 'USD',
+			url: canonical
+		}
+	});
 </script>
 
 <svelte:head>
 	<title>{service.name} | NaviX Technologies</title>
-	<meta name="description" content={service.short} />
+	{@html `<script type="application/ld+json">${JSON.stringify(serviceJsonLd)}</script>`}
 </svelte:head>
 
 <PageHero eyebrow="OUR SERVICES" title={service.name} subtitle={service.short} />

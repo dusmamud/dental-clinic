@@ -5,10 +5,6 @@
 
 <svelte:head>
 	<title>Privacy Policy | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Privacy policy for the NaviX Technologies demo website: what the demo forms collect, where it is stored, and how to reach us."
-	/>
 </svelte:head>
 
 <PageHero

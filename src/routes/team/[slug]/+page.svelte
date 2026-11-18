@@ -2,16 +2,35 @@
 	import PageHero from '#lib/components/PageHero.svelte';
 	import Icon from '#lib/components/Icon.svelte';
 	import { reveal } from '#lib/actions/reveal';
+	import { SITE_URL } from '#lib/data/seo';
+	import { imgSrcset } from '#lib/data/images';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 	const member = $derived(data.member);
 	const firstName = $derived(member.name.replace(/^Dr\.\s*/, '').split(' ')[0]);
+	const canonical = $derived(`${SITE_URL}/team/${member.slug}`);
+
+	const personJsonLd = $derived({
+		'@context': 'https://schema.org',
+		'@type': 'Person',
+		name: member.name,
+		jobTitle: member.role,
+		url: canonical,
+		description: member.bio,
+		worksFor: {
+			'@type': 'Dentist',
+			'@id': `${SITE_URL}/#dentist`,
+			name: 'NaviX Technologies',
+			url: SITE_URL
+		},
+		...(member.image ? { image: `${SITE_URL}${member.image}` } : {})
+	});
 </script>
 
 <svelte:head>
-	<title>{member.name} — {member.role} | NaviX Technologies</title>
-	<meta name="description" content={member.bio} />
+	<title>{member.name} | NaviX Technologies</title>
+	{@html `<script type="application/ld+json">${JSON.stringify(personJsonLd)}</script>`}
 </svelte:head>
 
 <PageHero eyebrow="OUR TEAM" title={member.name} subtitle={member.role} />
@@ -23,6 +42,10 @@
 			{#if member.image}
 				<img
 					src={member.image}
+					srcset={imgSrcset(member.image)}
+					sizes="(max-width: 1024px) 100vw, 360px"
+					width={member.image.includes('dr-anderson') ? 1280 : 1920}
+					height={member.image.includes('dr-anderson') ? 1920 : 1280}
 					alt="Portrait of {member.name}"
 					class="aspect-[4/5] w-full rounded-3xl object-cover object-top shadow-xl"
 				/>

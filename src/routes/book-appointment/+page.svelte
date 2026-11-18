@@ -112,10 +112,6 @@
 
 <svelte:head>
 	<title>Book an Appointment | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Book a dental visit at NaviX Technologies in Austin, TX. Pick a service, date and time — we'll confirm by phone or email."
-	/>
 </svelte:head>
 
 <PageHero

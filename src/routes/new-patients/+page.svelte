@@ -112,10 +112,6 @@
 
 <svelte:head>
 	<title>New Patients | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Your first visit to NaviX Technologies in Austin: what to expect, what to bring, new-patient forms, insurance and our 24-hour cancellation policy."
-	/>
 </svelte:head>
 
 <PageHero
@@ -172,7 +168,7 @@
 
 	<!-- Form + side info -->
 	<div class="mt-16 grid gap-8 lg:grid-cols-[1fr_360px]">
-		<div class="min-w-0 rounded-3xl bg-white p-6 shadow-sm sm:p-8" use:reveal>
+		<div class="min-w-0 rounded-3xl bg-white px-6 pt-6 pb-4 shadow-sm sm:px-8 sm:pt-8 sm:pb-5" use:reveal>
 			<h2 class="text-2xl font-bold text-navy">New-patient form</h2>
 			<p class="mt-2 text-sm leading-relaxed text-[#5B6B74]">
 				Complete this demo form and we will have your details ready before you arrive. Printable

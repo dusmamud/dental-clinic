@@ -18,6 +18,8 @@
 		</script>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="apple-touch-icon" href="/favicon.svg" />
+		<!-- Self-hosted Inter (the only webfont any markup uses) — preload the one above-the-fold face. -->
+		<link rel="preload" href="/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin />
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

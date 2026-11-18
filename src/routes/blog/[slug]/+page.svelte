@@ -2,16 +2,34 @@
 	import Icon from '#lib/components/Icon.svelte';
 	import { reveal } from '#lib/actions/reveal';
 	import { blogPosts as posts } from '#lib/data/blog';
+	import { SITE_URL, toIsoDate } from '#lib/data/seo';
+	import { imgSrcset } from '#lib/data/images';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 	const post = $derived(data.post);
 	const others = $derived(posts.filter((p) => p.slug !== post.slug));
+	const canonical = $derived(`${SITE_URL}/blog/${post.slug}`);
+	const isoDate = $derived(toIsoDate(post.date));
+
+	const blogJsonLd = $derived({
+		'@context': 'https://schema.org',
+		'@type': 'BlogPosting',
+		headline: post.title,
+		image: `${SITE_URL}${post.image}`,
+		datePublished: isoDate,
+		dateModified: isoDate,
+		author: {
+			'@type': 'Organization',
+			name: 'NaviX Technologies',
+			url: SITE_URL
+		}
+	});
 </script>
 
 <svelte:head>
 	<title>{post.title} | NaviX Blog</title>
-	<meta name="description" content={post.excerpt} />
+	{@html `<script type="application/ld+json">${JSON.stringify(blogJsonLd)}</script>`}
 </svelte:head>
 
 <!-- Article header -->
@@ -30,6 +48,10 @@
 	<div class="mx-auto max-w-4xl px-4 pb-14 sm:px-6" use:reveal>
 		<img
 			src={post.image}
+			srcset={imgSrcset(post.image)}
+			sizes="(max-width: 896px) 100vw, 896px"
+			width={post.image.includes('dr-anderson') ? 1280 : 1920}
+			height={post.image.includes('dr-anderson') ? 1920 : 1280}
 			alt={post.title}
 			class="aspect-[16/9] w-full rounded-3xl object-cover shadow-xl"
 		/>
@@ -79,6 +101,10 @@
 			>
 				<img
 					src={other.image}
+					srcset={imgSrcset(other.image)}
+					sizes="(max-width: 640px) 100vw, 192px"
+					width={other.image.includes('dr-anderson') ? 1280 : 1920}
+					height={other.image.includes('dr-anderson') ? 1920 : 1280}
 					alt={other.title}
 					loading="lazy"
 					class="aspect-[16/9] w-full object-cover sm:aspect-auto sm:w-48 sm:shrink-0"

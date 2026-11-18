@@ -59,10 +59,6 @@
 
 <svelte:head>
 	<title>Dental Emergency | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Dental emergency in Austin? Call NaviX Technologies on +1 (512) 555-0148 for same-day emergency appointments — cracked tooth, severe pain, knocked-out tooth and more."
-	/>
 </svelte:head>
 
 <PageHero

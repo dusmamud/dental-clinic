@@ -11,10 +11,6 @@
 
 <svelte:head>
 	<title>Patient Reviews | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="NaviX Technologies is rated 4.9/5 from 280+ patient reviews. Read what patients say about our Austin dental clinic — demo reviews shared with permission."
-	/>
 </svelte:head>
 
 <PageHero

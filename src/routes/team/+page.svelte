@@ -3,14 +3,11 @@
 	import Icon from '#lib/components/Icon.svelte';
 	import { reveal } from '#lib/actions/reveal';
 	import { team } from '#lib/data/team';
+	import { imgSrcset } from '#lib/data/images';
 </script>
 
 <svelte:head>
 	<title>Our Team | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Meet the dentists behind your smile — Dr. Michael Anderson, Dr. Sarah Chen, Dr. James Patel and Dr. Emily Rodriguez at NaviX Technologies, Austin."
-	/>
 </svelte:head>
 
 <PageHero
@@ -29,6 +26,10 @@
 				{#if member.image}
 					<img
 						src={member.image}
+						srcset={imgSrcset(member.image)}
+						sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 296px"
+						width={member.image.includes('dr-anderson') ? 1280 : 1920}
+						height={member.image.includes('dr-anderson') ? 1920 : 1280}
 						alt="Portrait of {member.name}"
 						loading="lazy"
 						class="aspect-[4/3] w-full object-cover object-top"

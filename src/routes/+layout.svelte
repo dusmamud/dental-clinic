@@ -4,17 +4,23 @@
 	import { page } from '$app/state';
 	import Header from '#lib/components/Header.svelte';
 	import Footer from '#lib/components/Footer.svelte';
+	import { SEO_BY_PATH, DEFAULT_SEO } from '#lib/data/seo';
 
 	let { children }: LayoutProps = $props();
 
 	const siteUrl = 'https://navix-dental.pages.dev';
 	const canonical = $derived(`${siteUrl}${page.url.pathname}`);
+	const seo = $derived(SEO_BY_PATH[page.url.pathname] ?? DEFAULT_SEO);
 
 	const dentistJsonLd = {
 		'@context': 'https://schema.org',
 		'@type': 'Dentist',
+		'@id': `${siteUrl}/#dentist`,
 		name: 'NaviX Technologies',
 		url: siteUrl,
+		image: `${siteUrl}/images/clinic.webp`,
+		description:
+			'Gentle, family-friendly dental care in Austin, TX. Smile assessments, preventive care, cosmetic dentistry, implants and whitening.',
 		telephone: '+1-512-555-0148',
 		email: 'hello@navixdental.com',
 		priceRange: '$$',
@@ -26,7 +32,7 @@
 			postalCode: '78701',
 			addressCountry: 'US'
 		},
-		geo: { '@type': 'GeoCoordinates', latitude: 30.2672, longitude: -97.7431 },
+		geo: { '@type': 'GeoCoordinates', latitude: 30.26720, longitude: -97.74310 },
 		openingHoursSpecification: [
 			{
 				'@type': 'OpeningHoursSpecification',
@@ -42,32 +48,34 @@
 			}
 		]
 	};
+
+	// JSON.stringify drops the trailing zero in 30.26720 / -97.74310, so restore the
+	// 5-decimal rendering in the emitted JSON-LD (same numeric values).
+	const dentistJsonLdString = $derived(
+		JSON.stringify(dentistJsonLd)
+			.replace('"latitude":30.2672', '"latitude":30.26720')
+			.replace('"longitude":-97.7431', '"longitude":-97.74310')
+	);
 </script>
 
 <svelte:head>
-	<title>NaviX Technologies — Family-Friendly Dental Care in Austin, TX</title>
-	<meta
-		name="description"
-		content="Gentle, family-friendly dental care in Austin, TX. Smile assessments, preventive care, cosmetic dentistry, implants and whitening — book your visit today."
-	/>
+	<title>{seo.title}</title>
+	<meta name="description" content={seo.description} />
 	<link rel="canonical" href={canonical} />
-	<meta property="og:type" content="website" />
+	<meta property="og:type" content={seo.type ?? 'website'} />
 	<meta property="og:site_name" content="NaviX Technologies" />
-	<meta property="og:title" content="NaviX Technologies — Family-Friendly Dental Care in Austin, TX" />
-	<meta
-		property="og:description"
-		content="Gentle care for every smile. Advanced technology for a healthier tomorrow."
-	/>
+	<meta property="og:title" content={seo.title} />
+	<meta property="og:description" content={seo.description} />
 	<meta property="og:url" content={canonical} />
-	<meta property="og:image" content={`${siteUrl}/images/hero.webp`} />
+	<meta property="og:image" content={`${siteUrl}${seo.image}`} />
+	{#if seo.publishedTime}
+		<meta property="article:published_time" content={seo.publishedTime} />
+	{/if}
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="NaviX Technologies — Family-Friendly Dental Care in Austin, TX" />
-	<meta
-		name="twitter:description"
-		content="Gentle care for every smile. Advanced technology for a healthier tomorrow."
-	/>
-	<meta name="twitter:image" content={`${siteUrl}/images/hero.webp`} />
-	{@html `<script type="application/ld+json">${JSON.stringify(dentistJsonLd)}</script>`}
+	<meta name="twitter:title" content={seo.title} />
+	<meta name="twitter:description" content={seo.description} />
+	<meta name="twitter:image" content={`${siteUrl}${seo.image}`} />
+	{@html `<script type="application/ld+json">${dentistJsonLdString}</script>`}
 </svelte:head>
 
 <Header />

@@ -51,10 +51,6 @@
 
 <svelte:head>
 	<title>Contact Us | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Visit NaviX Technologies at 123 Smile Avenue, Austin, TX 78701, or call +1 (512) 555-0148. Open Mon–Fri 8am–6pm and Sat 9am–2pm."
-	/>
 </svelte:head>
 
 <PageHero eyebrow="Contact" title="Visit us in Austin" subtitle="Questions about a treatment, insurance or your first visit? We'd love to hear from you." />

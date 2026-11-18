@@ -3,14 +3,11 @@
 	import Icon from '#lib/components/Icon.svelte';
 	import { reveal } from '#lib/actions/reveal';
 	import { blogPosts as posts } from '#lib/data/blog';
+	import { imgSrcset } from '#lib/data/images';
 </script>
 
 <svelte:head>
 	<title>Blog | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Smile tips from our dentists — checkups, whitening, implants and everyday oral care, explained simply by the NaviX Technologies team."
-	/>
 </svelte:head>
 
 <PageHero
@@ -28,6 +25,10 @@
 			>
 				<img
 					src={post.image}
+					srcset={imgSrcset(post.image)}
+					sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
+					width={post.image.includes('dr-anderson') ? 1280 : 1920}
+					height={post.image.includes('dr-anderson') ? 1920 : 1280}
 					alt={post.title}
 					loading="lazy"
 					class="aspect-[16/10] w-full object-cover"

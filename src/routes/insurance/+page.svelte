@@ -51,10 +51,6 @@
 
 <svelte:head>
 	<title>Dental Insurance &amp; Financing | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="NaviX Technologies accepts Delta Dental, Cigna, MetLife, Aetna, UnitedHealthcare and Humana, plus CareCredit and in-house payment plans. Uninsured patients welcome."
-	/>
 </svelte:head>
 
 <PageHero

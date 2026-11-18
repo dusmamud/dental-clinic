@@ -68,10 +68,6 @@
 
 <svelte:head>
 	<title>Sitemap | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Every page on the NaviX Technologies website — services, team, blog, patient information and legal pages."
-	/>
 </svelte:head>
 
 <PageHero

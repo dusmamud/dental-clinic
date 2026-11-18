@@ -19,10 +19,6 @@
 
 <svelte:head>
 	<title>Frequently Asked Questions | NaviX Technologies</title>
-	<meta
-		name="description"
-		content="Answers to common questions about visiting NaviX Technologies in Austin — appointments, insurance, costs, whitening, implants and more."
-	/>
 	{@html `<script type="application/ld+json">${JSON.stringify(faqJsonLd)}</script>`}
 </svelte:head>
 

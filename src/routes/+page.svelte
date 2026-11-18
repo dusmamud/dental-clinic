@@ -9,6 +9,7 @@
 	import { testimonials } from '#lib/data/testimonials';
 	import { blogPosts } from '#lib/data/blog';
 	import { faqs } from '#lib/data/faqs';
+	import { imgSrcset } from '#lib/data/images';
 
 	const tabServices = services.slice(0, 5);
 	let activeTab = $state('smile-assessment');
@@ -124,7 +125,7 @@
 				<div class="hero-anim mt-7 flex flex-wrap items-center gap-3" style="--delay: 200ms">
 					<a
 						href="/book-appointment"
-						class="btn-arrow inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white shadow-lg shadow-teal-700/25 transition hover:bg-brand-dark"
+						class="btn-arrow inline-flex min-h-11 items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white shadow-lg shadow-teal-700/25 transition hover:bg-[#0B5E5D] hover:shadow-xl hover:shadow-teal-900/30"
 					>
 						Book an Appointment <Icon name="arrow-right" class="size-4" />
 					</a>
@@ -163,6 +164,10 @@
 				<div class="overflow-hidden rounded-3xl shadow-2xl shadow-teal-900/20">
 					<img
 						src="/images/hero.webp"
+						srcset="/images/hero-480.webp 480w, /images/hero-800.webp 800w, /images/hero-1200.webp 1200w, /images/hero-1600.webp 1600w, /images/hero.webp 1920w"
+						sizes="100vw"
+						width="1920"
+						height="1280"
 						alt="Bright, modern NaviX dental clinic treatment room"
 						class="aspect-[4/3] w-full object-cover"
 						fetchpriority="high"
@@ -180,6 +185,10 @@
 	>
 		<img
 			src="/images/hero.webp"
+			srcset="/images/hero-480.webp 480w, /images/hero-800.webp 800w, /images/hero-1200.webp 1200w, /images/hero-1600.webp 1600w, /images/hero.webp 1920w"
+			sizes="46vw"
+			width="1920"
+			height="1280"
 			alt="Bright, modern NaviX dental clinic treatment room"
 			class="h-full w-full object-cover"
 			fetchpriority="high"
@@ -308,7 +317,7 @@
 			</div>
 			<div class="relative min-w-0" use:reveal>
 				<div class="zoom-img overflow-hidden rounded-3xl shadow-xl shadow-teal-900/15">
-					<img src="/images/about.webp" alt="The NaviX dental team welcoming a patient" class="aspect-[4/3] w-full object-cover" loading="lazy" />
+					<img src="/images/about.webp" srcset="/images/about-480.webp 480w, /images/about-800.webp 800w, /images/about-1200.webp 1200w, /images/about.webp 1920w" sizes="(max-width: 1024px) 100vw, 580px" width="1920" height="1280" alt="The NaviX dental team welcoming a patient" class="aspect-[4/3] w-full object-cover" loading="lazy" />
 				</div>
 				<button
 					type="button"
@@ -364,6 +373,10 @@
 			<article class="lift-card grid min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-mist sm:grid-cols-[220px_1fr]" use:reveal>
 				<img
 					src="/images/dr-anderson.webp"
+					srcset="/images/dr-anderson-480.webp 480w, /images/dr-anderson-800.webp 800w, /images/dr-anderson-1200.webp 1200w, /images/dr-anderson.webp 1280w"
+					sizes="(max-width: 640px) 100vw, 220px"
+					width="1280"
+					height="1920"
 					alt="Dr. Michael Anderson, Lead Dental Specialist"
 					class="h-56 w-full object-cover object-top sm:h-full"
 					loading="lazy"
@@ -394,7 +407,7 @@
 
 			<!-- Clinic card -->
 			<article class="lift-card relative min-w-0 overflow-hidden rounded-3xl shadow-lg shadow-teal-900/10" use:reveal>
-				<img src="/images/clinic.webp" alt="Inside the state-of-the-art NaviX clinic" class="h-full min-h-[320px] w-full object-cover" loading="lazy" />
+				<img src="/images/clinic.webp" srcset="/images/clinic-480.webp 480w, /images/clinic-800.webp 800w, /images/clinic-1200.webp 1200w, /images/clinic.webp 1920w" sizes="(max-width: 1024px) 100vw, 596px" width="1920" height="1280" alt="Inside the state-of-the-art NaviX clinic" class="h-full min-h-[320px] w-full object-cover" loading="lazy" />
 				<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/95 via-navy/75 to-navy/10 p-6 pt-28">
 					<h3 class="text-2xl font-bold text-white">State-of-the-Art Clinic</h3>
 					<p class="mt-1 text-sm text-slate-200">Modern treatment rooms, digital imaging and a calm, comfortable space.</p>
@@ -596,11 +609,15 @@
 						role="tab"
 						aria-selected={tIndex === i}
 						aria-label="Show testimonial {i + 1}"
-						class="h-2.5 rounded-full transition-all duration-300 {tIndex === i
-							? 'w-8 bg-brand'
-							: 'w-2.5 bg-slate-300 hover:bg-brand/50'}"
+						class="group grid min-h-6 min-w-6 place-items-center"
 						onclick={() => (tIndex = i)}
-					></button>
+					>
+						<span
+							class="h-2.5 rounded-full transition-all duration-300 {tIndex === i
+								? 'w-8 bg-brand'
+								: 'w-2.5 bg-slate-300 group-hover:bg-brand/50'}"
+						></span>
+					</button>
 				{/each}
 			</div>
 		</div>
@@ -667,7 +684,7 @@
 		<div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 			{#each blogPosts as p}
 				<article class="lift-card zoom-img min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg" use:reveal>
-					<img src={p.image} alt={p.title} class="aspect-[16/9] w-full object-cover" loading="lazy" />
+					<img src={p.image} srcset={imgSrcset(p.image)} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px" width={p.image.includes('dr-anderson') ? 1280 : 1920} height={p.image.includes('dr-anderson') ? 1920 : 1280} alt={p.title} class="aspect-[16/9] w-full object-cover" loading="lazy" />
 					<div class="p-6">
 						<p class="text-xs font-bold tracking-wide text-brand uppercase">{p.category} · {p.date}</p>
 						<h3 class="mt-2 text-lg leading-snug font-bold text-navy">{p.title}</h3>
