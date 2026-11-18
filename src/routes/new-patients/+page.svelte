@@ -167,7 +167,7 @@
 	</div>
 
 	<!-- Form + side info -->
-	<div class="mt-16 grid gap-8 lg:grid-cols-[1fr_360px]">
+	<div class="mt-16 grid items-start gap-8 lg:grid-cols-[1fr_360px]">
 		<div class="min-w-0 rounded-3xl bg-white px-6 pt-6 pb-4 shadow-sm sm:px-8 sm:pt-8 sm:pb-5" use:reveal>
 			<h2 class="text-2xl font-bold text-navy">New-patient form</h2>
 			<p class="mt-2 text-sm leading-relaxed text-[#5B6B74]">
